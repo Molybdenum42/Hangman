@@ -1,8 +1,47 @@
 :root {
+  --color-hue: 210;
+  --color-saturation: 6%;
+
+  --bg-dark: hsl(var(--color-hue), var(--color-saturation), 5%);
+  --bg: hsl(var(--color-hue), var(--color-saturation), 10%);
+  --bg-light: hsl(var(--color-hue), var(--color-saturation), 20%);
+
+  --text: hsl(0 0% 95%);
+  --text-muted: hsl(0 0% 70%);
+
+  --border: hsl(var(--color-hue), var(--color-saturation), 30%);
+  --gradient: linear-gradient(0deg, var(--bg) 95%, var(--bg-light));
+  --gradient-hover: linear-gradient(0deg, var(--bg), var(--bg-light));
+  --highlight: hsl(var(--color-hue), var(--color-saturation), 50%);
+  --border-card: 1px solid var(--border);
+  
   --primary-color: rgb(4, 87, 102);
   --primary-color--hover: rgba(4, 87, 102, 0.9);
   --primary-color--active: rgba(4, 87, 102, 0.6);
   --primary-white: rgb(240, 240, 240);
+  --nav--height: 3rem;
+}
+body.light {
+  --bg-dark: hsl(var(--color-hue), var(--color-saturation), 90%);
+  /* --bg-dark: hsl(0, 0%, 90%); */
+  --bg: hsl(var(--color-hue), var(--color-saturation), 95%);
+  --bg-light: hsl(var(--color-hue), var(--color-saturation), 100%);
+
+  --text: hsl(0 0% 5%);
+  --text-muted: hsl(0 0% 30%);
+
+  --border: hsl(var(--color-hue), var(--color-saturation), 30%);
+  --gradient: linear-gradient(0deg, var(--bg) 95%, var(--bg-light));
+  --gradient-hover: linear-gradient(0deg, var(--bg), var(--bg-light));
+  --highlight: hsl(var(--color-hue), var(--color-saturation), 100%);
+  --border-card: 1px solid var(--bg);
+  --shadow: 0px 2px 2px hsla(0, 0%, 0%, 0.07), 
+            0px 4px 4px hsla(0, 0%, 0%, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -32,14 +71,79 @@ html {
 }
 
 body {
-  /* background-color: black; */
+  background: var(--bg-dark);
   font-family: Arial, Helvetica, sans-serif;
   font-size: var(--16px);
+  color: var(--text);
   /* min-width: 100vh; */
   display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-areas: 
+    "navbar navbar"
+    "sidebar main"
+    "sidebar footer";
   /* makes footer not float if in 3rd position */
-  /* grid-template-rows: auto 1fr auto; */
-  justify-items: center;
+  grid-template-rows: auto 1fr auto;
+  /* justify-items: center; */
+  min-height: 100vh; /* helps push footer to the bottom */
+}
+nav {
+  grid-area: navbar;
+  position: sticky;
+  top: 0rem;
+    /* makes it easier to calculate aside{top} */
+  /* height: 2rem; */
+  /* padding: var(--nav--padding); */
+  box-sizing: border-box;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+}
+.navbar__button-default {
+  height: var(--nav--height);
+  width: var(--nav--height);
+  background-color: var(--bg-light);
+  color: var(--text);
+  border: none;
+  cursor: pointer;
+}
+.dark-mode-toggler {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dark-mode-toggler svg:last-child {
+  display: none;
+}
+body.light .dark-mode-toggler svg:first-child {
+  display: none;
+}
+body.light .dark-mode-toggler svg:last-child {
+  display: block;
+}
+svg {
+  fill: var(--text);
+  pointer-events: none;
+}
+aside {
+  grid-area: sidebar;
+  position: sticky;
+  top: var(--nav--height); /* calc(2rem + 2 * var(--nav--padding)); */
+  align-self: start;
+  min-height: calc(100vh - var(--nav--height)); /* calc(100vh - (2rem + 2 * var(--nav--padding))); */
+  background-color: var(--bg);
+  border: var(--border-card);
+  /* border-top: var(--highlight); */
+  box-shadow: var(--shadow);
+}
+body.light aside {
+  border: 1px solid black;
+}
+main {
+  grid-area: main;
+}
+footer {
+  grid-area: footer;
 }
 
 h1 {
@@ -47,13 +151,14 @@ h1 {
 }
 
 .container {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: grid;
   width: min(60rem, 95%);
   display: flex;
   align-items: center;
   flex-direction: row;
   gap: 10px 30px;
+  margin: auto;
   /* flex: 1 1 100%;
   flex-wrap: wrap; */
 }
@@ -63,7 +168,12 @@ h1 {
   justify-items: center;
   /* min-width: 10rem; */
   flex: 1;
-  border: 1px solid blue;
+  border: 1px solid var(--border);
+  /* border-top: 1px solid var(--highlight); */
+  border-radius: 8px;
+  padding: 8px;
+  background-color: var(--bg-light);
+  box-shadow: var(--shadow);
 }
 
 .hangman-graphic {
@@ -80,7 +190,7 @@ h1 {
   /* justify-content: center; */
   /* flex-grow: 0.6;
   min-width: 30rem; */
-  border: solid red;
+  border: none red;
   width: 100%;
 }
 
@@ -94,6 +204,7 @@ h1 {
 .keyboard {
   background-color: var(--primary-color);
   border: 1px solid black;
+  border-radius: 8px;
   text-align: center;
   /* display: grid;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
@@ -153,9 +264,6 @@ h1 {
 }
 
 .popup__content {
-  background-color: #fff;
-  border: none;
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -166,17 +274,25 @@ h1 {
   width: fit-content;
   /* width: clamp(10rem, 40vh + 3rem, 40rem); */
   padding: 36px 48px;
+  background-color: var(--bg);
+  border: var(--border-card);
+  border-top: 1px solid var(--highlight);
+  border-radius: 8px;
 }
-
+.word-reveal {
+  margin: 1rem;
+}
 .reset-button {
-  background-color: var(--primary-color);
-  color: var(--primary-white);
   font-size: clamp(16px, 1rem, 6rem);
-  border: none;
+  border: var(--border-card);
+  border-top: 1px solid var(--highlight);
   border-radius: 12px;
   cursor: pointer;
   padding: 12px;
   width: fit-content;
+  background-color: var(--bg-light);
+  color: var(--text);
+  box-shadow: var(--shadow);
 }
 .reset-button:hover {
   background-color: var(--primary-color--hover);
@@ -197,5 +313,19 @@ h1 {
   .game-box {
     flex: auto;
     width: 100%;
+  }
+}
+
+@media(max-width: 800px) {
+  body {
+    grid-template-columns: 1fr;
+  }
+  aside {
+    display: none;
+    position: fixed;
+    width: 200px;
+  }
+  .show {
+    display: block;
   }
 }

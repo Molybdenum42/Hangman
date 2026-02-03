@@ -35,6 +35,24 @@ function addGlobalEventListener(type, selector, callback, parent = document) {
 };
 
 
+addGlobalEventListener('click', '.js-navbar__sidebar-toggler', e => {
+  const sidebar = document.querySelector('.js-sidebar');
+  sidebar.classList.toggle('show');
+});
+
+let lightmode = localStorage.getItem('lightmode');
+if (lightmode === 'true') {
+  document.body.classList.add('light');
+};
+addGlobalEventListener('click', '.js-dark-mode-toggler', () => {
+  document.body.classList.toggle('light');
+  lightmode === 'true'
+    ? localStorage.setItem('lightmode', 'false')
+    : localStorage.setItem('lightmode', 'true');
+  lightmode = localStorage.getItem('lightmode');
+});
+
+
 let word;
 let displayArray;
 let hangmanHTML;
@@ -43,6 +61,7 @@ const wordDisplay = document.querySelector('.js-word-display');
 
 let wins = 0;
 let losses = 0;
+
 
 
 function playGame() {
@@ -120,10 +139,14 @@ function playGame() {
       initializeData(); // resets game;
     });
   
+  /**
+   * At the end of the game, a popup appears with a message and the word.
+   * @param {string} message Winning/Losing message to be displayed
+   */
   function displayPopup(message) {
     document.querySelector('.js-popup__message').textContent = message;
     document.querySelector('.js-popup__word-reveal')
-      .textContent = `The word was ${word}`;
+      .textContent = `The word was ${word}.`;
     const popup = document.querySelector('.js-popup');
     popup.style.display = 'flex';
   };
