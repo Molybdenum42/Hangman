@@ -10,6 +10,7 @@ While functional, this project is still in the works as my first ever (non-one-t
 ## Demo
 
 Will be posted if my project gains any substance.
+
 ![Hangman graphic](/images/hangman.svg)
 
 ## How to install this JavaScript project
@@ -19,7 +20,7 @@ Just the usual method.
 git clone <url>
 ```
 
-I will link the playable website after I'm somewhat satisfied with the product.
+The file in question is called "index.html". I will link the playable website after I'm somewhat satisfied with the product.
 
 ## How to tweak this project for your own uses?
 
@@ -44,8 +45,16 @@ Since this is purely to learn JavaScript for myself, just telling me what part o
 
 ## Version History
 
-### Hangman_V0.2
+### Hangman_V0.2 (03.02.2026)
 * Navigation bar with [icons](https://fonts.google.com/icons "Here you'll find the icons I used") added
 * Dark theme + theme toggler added
-* Sidebar added (without content)
+* Sidebar and Footer added (without content)
 * Overall improved CSS styling
+
+### Hangman_V0.1 (01.02.2026)
+* Barebones Hangman game with
+    * clickable keyboard
+    * word display
+    * hangman image display
+    * popup window
+* Ugly CSS

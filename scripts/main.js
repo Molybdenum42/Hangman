@@ -1,4 +1,7 @@
 import { wordList } from "./data/word-list.js";
+import { renderNavbar } from "./navbar.js";
+
+renderNavbar();
 
 let alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
         'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
@@ -39,6 +42,7 @@ addGlobalEventListener('click', '.js-navbar__sidebar-toggler', e => {
   const sidebar = document.querySelector('.js-sidebar');
   sidebar.classList.toggle('show');
 });
+
 
 let lightmode = localStorage.getItem('lightmode');
 if (lightmode === 'true') {
@@ -131,7 +135,7 @@ function playGame() {
 
   document.querySelector('.js-reset-button')
     .addEventListener('click', () => {
-      const popup = document.querySelector('.js-popup')
+      const popup = document.querySelector('.js-popup-result')
       popup.style.display = 'none';
       document.querySelectorAll('.js-keyboard__key')
         .forEach(button => button.disabled = false);
@@ -144,10 +148,10 @@ function playGame() {
    * @param {string} message Winning/Losing message to be displayed
    */
   function displayPopup(message) {
-    document.querySelector('.js-popup__message').textContent = message;
-    document.querySelector('.js-popup__word-reveal')
+    document.querySelector('.js-popup-result__message').textContent = message;
+    document.querySelector('.js-popup-result__word-reveal')
       .textContent = `The word was ${word}.`;
-    const popup = document.querySelector('.js-popup');
+    const popup = document.querySelector('.js-popup-result');
     popup.style.display = 'flex';
   };
 };

@@ -102,10 +102,13 @@ nav {
 .navbar__button-default {
   height: var(--nav--height);
   width: var(--nav--height);
-  background-color: var(--bg-light);
+  background-color: var(--bg);
   color: var(--text);
   border: none;
   cursor: pointer;
+}
+.navbar__button-default:hover {
+  background-color: var(--bg-light);
 }
 .dark-mode-toggler {
   display: flex;
@@ -146,8 +149,10 @@ footer {
   grid-area: footer;
 }
 
-h1 {
+.hangman-header {
   font-size: clamp(1.8rem, 7vw + 1rem, 3rem);
+  text-align: center;
+  margin: 16px;
 }
 
 .container {
@@ -186,19 +191,24 @@ h1 {
 
 .game-box {
   flex: 0 0 60%;
-  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   /* justify-content: center; */
   /* flex-grow: 0.6;
   min-width: 30rem; */
-  border: none red;
+  border: none;
   width: 100%;
 }
 
 .word-display {
   font-size: var(--32px);
-  border: 2px none brown;
-  padding: 8px;
-  text-align: center;
+  border: var(--border-card);
+  border-radius: 8px;
+  padding: 16px;
+  /* text-align: center; */
+  margin: 16px;
+  width: fit-content;
 }
 
 .keyboard {
@@ -253,6 +263,7 @@ h1 {
 }
 
 .popup {
+  display: none;
   position: fixed;
   left: 0;
   top: 0;
