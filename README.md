@@ -45,6 +45,11 @@ Since this is purely to learn JavaScript for myself, just telling me what part o
 
 ## Version History
 
+### Hangman_V0.3 ()
+* Close popup window when clicking outside
+* Keyboard now usable with keypresses
+* "Enter" now activates the Reset button
+
 ### Hangman_V0.2 (03.02.2026)
 * Navigation bar with [icons](https://fonts.google.com/icons "Here you'll find the icons I used") added
 * Dark theme + theme toggler added

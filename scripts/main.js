@@ -29,6 +29,13 @@ function getRandomWord(max = wordList.length, min = 0) {
   return word;
 };
 
+/**
+ * Wrapper function for simpler eventListeners.
+ * @param {string} type click, keydown...
+ * @param {string} selector classname, idname,...
+ * @param {() => {}} callback Callback function.
+ * @param {Document} parent Object from class Document, usually just 'document'.
+ */
 function addGlobalEventListener(type, selector, callback, parent = document) {
   parent.addEventListener(type, e => {
     if (e.target.matches(selector)) {
@@ -37,13 +44,19 @@ function addGlobalEventListener(type, selector, callback, parent = document) {
   });
 };
 
+// Closes popup when clicking outside of the window.
+addGlobalEventListener('click', '.popup__overlay', e => {
+  e.target.style.display = 'none';
+});
 
+// Toggles sidebar by clicking the toggler.
 addGlobalEventListener('click', '.js-navbar__sidebar-toggler', e => {
   const sidebar = document.querySelector('.js-sidebar');
   sidebar.classList.toggle('show');
 });
 
 
+// Theme toggler.
 let lightmode = localStorage.getItem('lightmode');
 if (lightmode === 'true') {
   document.body.classList.add('light');
@@ -69,7 +82,7 @@ let losses = 0;
 
 
 function playGame() {
-  function initializeData(desiredLives = 6) {
+  function initializeData(desiredLives = 3) {
     word = getRandomWord();
     displayArray = Array.from(word).map(() => '_');
     hangmanHTML = '<rect id="hangman__base" y="150" width="160" height="10" fill="#167611"/>';
@@ -85,13 +98,10 @@ function playGame() {
   
   initializeData();
 
-  addGlobalEventListener('click', '.js-keyboard__key', e => {
-    // e.target.classList.toggle('new-class');
-    const button = e.target;
-    button.disabled = true;
-    const letter = button.textContent;
-    console.log(letter);
 
+  function pressKey(button, letter) {
+    button.disabled = true;
+  
     if (!word.includes(letter)) {
       hangmanHTML += hangmanComponents[wrongGuessCounter];
       wrongGuessCounter++;
@@ -102,10 +112,29 @@ function playGame() {
         };
       };
     };
-
+  
     renderWord();
+  };
+  
+  document.addEventListener("keydown", event => {
+    const letter = event.key;
+    if (!alphabet.includes(letter)) {
+      return;
+    };
+    const button = document.querySelector(`.js-keyboard__key-${letter}`);
+
+    pressKey(button, letter);
+  });
+
+  addGlobalEventListener('click', '.js-keyboard__key', e => {
+    // e.target.classList.toggle('new-class');
+    const button = e.target;
+    const letter = button.textContent;
+    
+    pressKey(button, letter);
 
   }, document.querySelector('.keyboard'));
+  
 
   function createButtons() {
     const buttonsAll = document.querySelector('.keyboard');
@@ -113,7 +142,7 @@ function playGame() {
     for (const letter of alphabet) {
       const button = document.createElement('button');
       button.textContent = letter;
-      button.classList.add('keyboard__key', 'js-keyboard__key');
+      button.classList.add('keyboard__key', 'js-keyboard__key', `js-keyboard__key-${letter}`);
   
       buttonsAll.appendChild(button);
     };
@@ -133,24 +162,42 @@ function playGame() {
   };
   
 
+  function resetGame() {
+    const popup = document.querySelector('.js-popup-result')
+    popup.style.display = 'none';
+    document.querySelectorAll('.js-keyboard__key')
+      .forEach(button => button.disabled = false);
+    
+    initializeData(); // resets game;
+  };
+  
   document.querySelector('.js-reset-button')
     .addEventListener('click', () => {
-      const popup = document.querySelector('.js-popup-result')
-      popup.style.display = 'none';
-      document.querySelectorAll('.js-keyboard__key')
-        .forEach(button => button.disabled = false);
-      
-      initializeData(); // resets game;
+      resetGame();
     });
+
+  document.addEventListener("keydown", event => {
+    if (event.key !== 'Enter') {
+      return;
+    };
+
+    if (document.querySelector('.js-popup-result').style.display === 'flex') {
+      document.querySelector('.js-reset-button').click();
+    };
+  });
   
   /**
    * At the end of the game, a popup appears with a message and the word.
    * @param {string} message Winning/Losing message to be displayed
    */
   function displayPopup(message) {
+    document.querySelectorAll('.js-keyboard__key')
+      .forEach(button => button.disabled = true);
+
     document.querySelector('.js-popup-result__message').textContent = message;
     document.querySelector('.js-popup-result__word-reveal')
       .textContent = `The word was ${word}.`;
+      
     const popup = document.querySelector('.js-popup-result');
     popup.style.display = 'flex';
   };
