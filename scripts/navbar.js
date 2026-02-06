@@ -29,47 +29,84 @@ export function renderNavbar() {
   `;
 
   document.querySelector('.js-navbar').innerHTML = navbarHTML;
+};
 
+export function createPopups() {
+  let popupsHTML = `
+  <dialog class="navbar__popup" id="popup-help">
+    <div class="wrapper js-wrapper-help">
+      <h2>Help</h2>
+      <!-- <button type="button" class="popup-help__close-button">Close</button> -->
+    </div>
+  </dialog>
+    
+  <dialog class="navbar__popup" id="popup-statistics">
+    <div class="wrapper js-wrapper-statistics">
+      <h2>Statistics</h2>
+      <!-- <button type="button" class="popup-statistics__close-button">Close</button> -->
+
+      <div class="popup-statistics__statistics" alt="Won:">Played</div>
+
+      <div class="popup-statistics__guess-distribution">Guess distribution</div>
+    </div>
+  </dialog>
+
+  <dialog class="navbar__popup" id="popup-settings">
+    <div class="wrapper js-wrapper-settings">
+      <h2>Settings</h2>
+      <!-- <button type="button" class="popup-settings__close-button">Close</button> -->
+    </div>
+  </dialog>
+  `;
+
+  document.querySelector('.popups').innerHTML = popupsHTML;
   
-  const wrapper = document.querySelector(".wrapper");
+  // const AllPopups = document.querySelectorAll(".navbar__popup");
+  // AllPopups.forEach(popup => {
+  //   easyClosePopup(popup);
+  // });
+
   /**
    * Enables the closing of popup windows by clicking outside the window.
    * @param {HTMLElement | null} popup Reference to the popup object or node.
    */
-  function easyClosePopup(popup) {
+  function easyClosePopup(popup, wrapper) {
     popup.addEventListener("click", e =>
       !wrapper.contains(e.target) && popup.close());
   };
   
   
   const statisticsPopup = document.getElementById("popup-statistics");
+  const statisticsWrapper = document.querySelector('.js-wrapper-statistics');
   addGlobalEventListener("click", ".js-statistics-popup", () => {
     statisticsPopup.showModal();
   });
 
-  addGlobalEventListener("click", ".popup-statistics__close-button", () => {
-    statisticsPopup.close();
-  });
+  // addGlobalEventListener("click", ".popup-statistics__close-button", () => {
+  //   statisticsPopup.close();
+  // });
 
-  easyClosePopup(statisticsPopup);
+  easyClosePopup(statisticsPopup, statisticsWrapper);
 
 
   const helpPopup = document.getElementById("popup-help");
+  const helpWrapper = document.querySelector(".js-wrapper-help");
   addGlobalEventListener("click", ".js-help-popup", () => {
     helpPopup.showModal();
   });
-  addGlobalEventListener("click", ".popup-help__close-button", () => {
-    helpPopup.close();
-  });
-  easyClosePopup(helpPopup);
+  // addGlobalEventListener("click", ".popup-help__close-button", () => {
+  //   helpPopup.close();
+  // });
+  easyClosePopup(helpPopup, helpWrapper);
 
 
   const settingsPopup = document.getElementById("popup-settings");
+  const settingsWrapper = document.querySelector(".js-wrapper-settings");
   addGlobalEventListener("click", ".js-settings-popup", () => {
     settingsPopup.showModal();
   })
-  addGlobalEventListener("click", ".popup-settings__close-button", () => {
-    settingsPopup.close();
-  });
-  easyClosePopup(settingsPopup);
+  // addGlobalEventListener("click", ".popup-settings__close-button", () => {
+  //   settingsPopup.close();
+  // });
+  easyClosePopup(settingsPopup, settingsWrapper);
 };

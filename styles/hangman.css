@@ -42,6 +42,7 @@ body.light {
 * {
   margin: 0;
   padding: 0;
+  color: var(--text);
 }
 
 html {
@@ -86,9 +87,6 @@ body {
   grid-template-rows: auto 1fr auto;
   /* justify-items: center; */
   min-height: 100vh; /* helps push footer to the bottom */
-}
-h2 {
-  color: var(--text);
 }
 nav {
   grid-area: navbar;
@@ -282,11 +280,31 @@ dialog {
   transform: translate(-50%, -50%);
   background-color: var(--bg);
   border: var(--border-card);
-  border-top: var(--highlight);
+  border-top: 1px solid var(--highlight);
+  border-radius: 8px;
 }
-dialog .wrapper {
+/* dialog .wrapper {
+  padding: 16px;
+} */
+dialog .wrapper > * {
+  border: var(--border-card);
   padding: 16px;
 }
+
+/* .hover-div::after {
+  content: "Text that appears on hover";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hover-div:hover::after {
+  visibility: visible;
+  opacity: 1;
+} */
 
 .popup-result__container {
   display: flex;

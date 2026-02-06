@@ -1,7 +1,8 @@
 import { wordList } from "./data/word-list.js";
-import { renderNavbar } from "./navbar.js";
+import { createPopups, renderNavbar } from "./navbar.js";
 
 renderNavbar();
+createPopups();
 
 /**
  * @type {Array<string>}
@@ -25,6 +26,12 @@ const hangmanComponents = [
     '<rect id="hangman__right-foot" x="115" y="88.6905" width="4" height="29" transform="rotate(-25 115 88.6905)" fill="#CA994A"/>'
   ];
 
+/**
+ * Get a random word from an array of word objects
+ * @param {number} max - length of word list parameter
+ * @param {number} min - default: 0
+ * @returns {string}
+ */
 function getRandomWord(max = wordList.length, min = 0) {
   const index = Math.floor(Math.random() * (max - min)) + min;
   const { word } = wordList[index];
