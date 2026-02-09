@@ -13,10 +13,11 @@
   <aside class="sidebar js-sidebar">sidebar</aside>
   
   <main>
-    <h1 class="hangman-header">
-      Hangman
-    </h1>
-    <div class="container">
+    <h1 class="hangman-header">Hangman</h1>
+
+    <div class="option-selection"></div>
+
+    <div class="hangman-container">
       <div class="hangman-box">
         <div class="hangman-graphic">
           <svg width="100%" height="100%" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +48,8 @@
         </div>
       </div>
       <div class="game-box">
-        <div class="word-display js-word-display"></div>
+        <!-- <pre> tag also possible -->
+        <div class="word-display js-word-display" style="white-space: pre;"></div> 
         <div class="keyboard"></div>
       </div>
     </div>

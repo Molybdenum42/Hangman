@@ -155,13 +155,35 @@ footer {
   grid-area: footer;
 }
 
+.option-selection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hangman-selector {
+  font-size: var(--16px);
+  background-color: var(--bg-light);
+  border: var(--border-card);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  padding: 0.5rem;
+  width: clamp(8rem, 10rem, fit-content);
+}
+.hangman-selector:hover {
+  background-color: var(--bg);
+}
+.hangman-selector:disabled {
+  color: var(--text-muted);
+  background-color: var(--bg-dark);
+}
+
 .hangman-header {
   font-size: clamp(1.8rem, 7vw + 1rem, 3rem);
   text-align: center;
   margin: 16px;
 }
 
-.container {
+.hangman-container {
   /* border: 1px solid black; */
   display: grid;
   width: min(60rem, 95%);
@@ -170,6 +192,7 @@ footer {
   flex-direction: row;
   gap: 10px 30px;
   margin: auto;
+  margin-top: 2rem;
   /* flex: 1 1 100%;
   flex-wrap: wrap; */
 }
@@ -209,7 +232,9 @@ footer {
 
 .word-display {
   font-size: var(--32px);
-  border: var(--border-card);
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
   border-radius: 8px;
   padding: 16px;
   /* text-align: center; */
@@ -284,9 +309,11 @@ dialog {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--bg);
-  border: var(--border-card);
-  border-top: 1px solid var(--highlight);
+  /* border: var(--border-card); */
+  border: none;
+  /* border-top: 1px solid var(--highlight); */
   border-radius: 8px;
+  width: fit-content;
 }
 /* dialog .wrapper {
   padding: 16px;
@@ -294,8 +321,14 @@ dialog {
 dialog .wrapper > * {
   padding: 32px;
 }
-dialog .wrapper-statistics > * {
-  border: var(--border-card);
+dialog .wrapper {
+  border: 1px solid var(--border);
+  border-radius: inherit;
+}
+dialog .wrapper > *:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+  /* border: var(--border-card); */
+  /* border-radius: inherit; */
 }
 
 /* .hover-div::after {
@@ -369,7 +402,7 @@ dialog .wrapper-statistics > * {
 }
 
 @media(max-width: 1000px) {
-  .container {
+  .hangman-container {
     flex-direction: column;
   }
 

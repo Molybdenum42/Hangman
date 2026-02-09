@@ -68,6 +68,9 @@ export function createPopups() {
   <dialog class="navbar__popup" id="popup-help">
     <div class="wrapper js-wrapper-help">
       <h2>Help</h2>
+      <p style="width: 70vh;">
+        Welcome to Hangman! The word to guess is represented by a line of dashes, each representing a letter of the word. If you suggest a letter (by clicking the keyboard or typing) which occurs in the word, the letter is written in all the correct positions. Otherwise, one element of a hanged stick figure gets drawn. The game ends, once the word is guessed or the stick figure gets completed (after 6 lost lives). Good luck!
+      </p>
       <!-- <button type="button" class="popup-help__close-button">Close</button> -->
     </div>
   </dialog>
@@ -142,26 +145,24 @@ export function renderStatistics() {
 
   <div class="statistics-display js-popup-statistics__statistics"></div>
 
-  <div class="popup-statistics__guess-distribution">
+  <!-- <div class="popup-statistics__guess-distribution">
     Guess distribution
-  </div>  
+  </div> -->
   `;
 
   loadStatisticsFromStorage();
 
 
-  let statisticsHTML = '';
+  const statisticsHTML = document.querySelector(
+    '.js-popup-statistics__statistics');
 
   Object.entries(statistics).forEach(statistic => {
     const statisticObject = statistic[1];
-    statisticsHTML += `
-      <div class="stats-column">
-        <div class="stats-num">${statisticObject.number}</div>
-        <div class="stats-label">${statisticObject.label}</div>
-      </div>
-    `;
+    statisticsHTML.insertAdjacentHTML("beforeend", `
+    <div class="stats-column">
+      <div class="stats-num">${statisticObject.number}</div>
+      <div class="stats-label">${statisticObject.label}</div>
+    </div>
+    `);
   });
-
-  document.querySelector('.js-popup-statistics__statistics')
-    .innerHTML = statisticsHTML;
 };

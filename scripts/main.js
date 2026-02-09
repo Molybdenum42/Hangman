@@ -1,7 +1,9 @@
 import { wordList } from "./data/word-list.js";
 import { createPopups, renderNavbar, renderStatistics } from "./navbar.js";
+import { renderOptionSelection } from "./optionsSelection.js";
 
 renderNavbar();
+renderOptionSelection();
 createPopups();
 // renderStatistics();
 
@@ -109,7 +111,9 @@ const wordDisplay = document.querySelector('.js-word-display');
 function playGame() {
   function initializeData(desiredLives = 3) {
     word = getRandomWord();
-    displayArray = Array.from(word).map(() => '_');
+    displayArray = Array.from(word).map(char => 
+      alphabet.includes(char) ? '_' : char
+    );
     hangmanHTML = '<rect id="hangman__base" y="150" width="160" height="10" fill="#167611"/>';
     wrongGuessCounter = 10 - desiredLives;
 
