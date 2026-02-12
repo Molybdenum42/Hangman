@@ -1,4 +1,5 @@
-[
+{
+    "animals": [
     {"name": "Lion", "category": "Mammal"},
     {"name": "Tiger", "category": "Mammal"},
     {"name": "Elephant", "category": "Mammal"},
@@ -87,4 +88,5 @@
     {"name": "Viper", "category": "Reptile"},
     {"name": "Caiman", "category": "Reptile"},
     {"name": "Tuatara", "category": "Reptile"}
-]
+    ]
+}

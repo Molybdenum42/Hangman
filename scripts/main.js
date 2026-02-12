@@ -1,4 +1,3 @@
-import { wordList } from "./data/word-list.js";
 import { createPopups, renderNavbar, renderStatistics } from "./navbar.js";
 import { renderOptionSelection } from "./optionsSelection.js";
 
@@ -104,17 +103,19 @@ const hangmanComponents = [
 function getRandomWord(fullObject) {
   const {categoryObjects, groups} = fullObject;
   const doubleObjectIndex = randomInterval(categoryObjects);
-  const categoryObject = categoryObjects[doubleObjectIndex];
+  const category = groups[doubleObjectIndex];
+
+  const categoryObject = categoryObjects[doubleObjectIndex][category];
   const categoryObjectIndex = randomInterval(categoryObject);
   const lastObject = categoryObject[categoryObjectIndex];
   
-  const category = groups[doubleObjectIndex];
   let name;
-  if (category === "animals") {
-    name = lastObject.name;
-  } else if (category === "countries") {
+  if (category === "countries") {
     name = lastObject.country;
+  } else {
+    name = lastObject.name;
   };
+  // animals, fruits...
   console.log(name);
   return name;
 };

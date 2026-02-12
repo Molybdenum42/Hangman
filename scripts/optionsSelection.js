@@ -4,9 +4,8 @@
  */
 export async function renderOptionSelection() {
   let groups;
-  const allCategories = {selectedCategories: ['animals', 'countries']};
+  const allCategories = {selectedCategories: ['animals', 'colors', 'countries', 'fruits', 'maths', 'nobel laureates', 'Pokémon (Gen 1–3)', 'sports']};
   
-  const categories = ['animals', 'countries'];
   const {selectedCategories} = JSON.parse(
     localStorage.getItem('selectedCategories')) 
     || allCategories;
@@ -28,7 +27,7 @@ export async function renderOptionSelection() {
   
   const listItems = document.querySelector('.category-selector__dropdown');
   let listItemsHTML = '';
-  categories.forEach(category => {
+  allCategories.selectedCategories.forEach(category => {
     let isChecked = selectedCategories.includes(category) ? 'checked' : '';
     
     listItemsHTML += `
@@ -36,7 +35,7 @@ export async function renderOptionSelection() {
         <span class="checkbox">
             <i class="fa-solid fa-check check-icon"></i>
         </span>
-        <span class="item-text" data-category="${category.toLowerCase()}">
+        <span class="item-text" data-category="${category}">
           ${category}
         </span>
     </li>

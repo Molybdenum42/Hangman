@@ -4,8 +4,9 @@
 
 While functional, this project is still in the works as my first ever (non-one-tutorial based) project. The currently offered features are the following:
 
-* Playing Hangman (duh)
+* Playing Hangman (duh) with two categories to choose from (Animals, Countries)
 * light / dark mode
+* Statistics
 
 ## Demo
 
@@ -42,14 +43,28 @@ Since this is purely to learn JavaScript for myself, just telling me what part o
 
 1. **Sidebar** currently has no content
 1. Limited number of words
+1. Spaghetti code
 
 ## Version History
 
+### Hangman_V1.1 (12.02.2026)
+* Included more categories
+    * colors
+    * fruits
+    * maths
+    * nobel laureates
+    * Pokémon (Gen 1–3)
+* Fixed bug, where dropdown menu covers navigation bar
+
 ### Hangman_V1.0 (12.02.2026)
-* Categories dropwdown menu (Animals + Countries)
+* Categories dropwdown menu with new Categories
+    * Animals
+    * Countries
 * Close popup window when clicking outside
 * Keyboard now usable with keypresses
-* Full statistics
+* Full statistics (able to reset)
+* Help window
+* Updated Footer
 
 ### Hangman_V0.2 (03.02.2026)
 * Navigation bar with [icons](https://fonts.google.com/icons "Here you'll find the icons I used") added
