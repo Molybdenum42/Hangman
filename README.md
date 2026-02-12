@@ -32,12 +32,11 @@ Since this is purely to learn JavaScript for myself, just telling me what part o
 
 ## Features to work on
 
-* Statistics
+* More statistics
 * Option to disable keyboard inputs
-* Offer multiple categories
 * Hard mode (fewer lives, right letter only reveals one blank)
 
-> Project status: active (02/2026)
+> Project status: mostly done (02/2026)
 
 ## Known Issues
 
@@ -46,7 +45,8 @@ Since this is purely to learn JavaScript for myself, just telling me what part o
 
 ## Version History
 
-### Hangman_V0.3 ()
+### Hangman_V1.0 (12.02.2026)
+* Categories dropwdown menu (Animals + Countries)
 * Close popup window when clicking outside
 * Keyboard now usable with keypresses
 * Full statistics

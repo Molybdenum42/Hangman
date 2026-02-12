@@ -1,0 +1,106 @@
+.select-group-container > * {
+  /* position: relative; */
+  min-width: 10rem;
+}
+
+.category-selector {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  /* width: max(10rem, (100% + 1rem)); */
+  min-width: 10rem;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: var(--bg-light);
+  border: var(--border-card);
+  border-top: 1px solid var(--highlight);
+  box-shadow: var(--shadow);
+}
+.category-selector__text {
+  padding-right: 1rem;
+}
+
+.select-button__arrow-down {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--22px);
+  width: var(--22px);
+  background: #6e93f7;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+.category-selector.open
+  .select-button__arrow-down {
+    transform: rotate(-180deg);
+  }
+
+.fa-chevron-down {
+  color: hsl(0 0% 95%);
+}
+
+.category-selector__dropdown {
+  position: absolute;
+  margin-top: var(--12px);
+  background-color: var(--bg-light);
+  border: var(--border-card);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+  display: none;
+  min-width: 11rem;
+}
+.category-selector.open + .category-selector__dropdown {
+  display: flex;
+  flex-direction: column;
+}
+.item {
+  display: flex;
+  /* align-items: center; */
+  /* list-style-type: none; */
+  padding: 8px 8px;
+  border-radius: 8px;
+  /* transition: 0.1s; */
+}
+.item:hover {
+  background-color: var(--bg);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  width: 16px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+.item.checked .checkbox {
+  background: #6e93f7;
+}
+.check-icon {
+  transform: scale(0);
+  /* transition: all 0.2s ease-in-out; */
+}
+.item.checked .check-icon {
+  transform: scale(1);
+  color: hsl(0 0% 95%);
+}
+
+.category-submit-button {
+  cursor: pointer;
+  background-color: var(--bg-dark);
+  border: var(--border-card);
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: var(--14px);
+}
+.category-submit-button:hover {
+  background-color: var(--bg);
+}
+.category-submit-button:disabled {
+  background-color: var(--bg-light);
+}

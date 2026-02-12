@@ -2,35 +2,55 @@ import { wordList } from "./data/word-list.js";
 import { createPopups, renderNavbar, renderStatistics } from "./navbar.js";
 import { renderOptionSelection } from "./optionsSelection.js";
 
+let groups;
+async function startGame() {
+  try {
+    groups = await renderOptionSelection();
+    playGame();
+  } catch (error) {
+    console.error(error);
+  }
+};
+startGame();
+// renderOptionSelection().then(promise => {
+//   groups = promise;
+//   setTimeout(playGame, 1000);
+//   // playGame();
+// })
+// .catch(error => {
+//   console.error(error);
+// });
+
 renderNavbar();
-renderOptionSelection();
 createPopups();
 // renderStatistics();
 
 export let statistics;
+export let newStatistics = {
+  gamesPlayed: {
+    number: 0,
+    label: 'Played',
+  },
+  gamesWon: {
+    number: 0,
+    label: 'Won',
+  },
+  winPercentage: {
+    number: 0,
+    label: 'Win %',
+  },
+  currentStreak: {
+    number: 0,
+    label: 'Current<br>Streak',
+  },
+  maxStreak: {
+    number: 0,
+    label: 'Max<br>Streak',
+  },
+};
+
 export function loadStatisticsFromStorage() {
-  statistics = JSON.parse(localStorage.getItem('hangmanStatistics')) || {
-      gamesPlayed: {
-        number: 0,
-        label: 'Played',
-      },
-      gamesWon: {
-        number: 0,
-        label: 'Won',
-      },
-      winPercentage: {
-        number: 0,
-        label: 'Win %',
-      },
-      currentStreak: {
-        number: 0,
-        label: 'Current<br>Streak',
-      },
-      maxStreak: {
-        number: 0,
-        label: 'Max<br>Streak',
-      },
-    };
+  statistics = JSON.parse(localStorage.getItem('hangmanStatistics')) || newStatistics;
 };
 
 loadStatisticsFromStorage();
@@ -42,9 +62,10 @@ function saveStatisticsToStorage() {
 /**
  * @type {Array<string>}
  */
-let alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
         'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
         't', 'u', 'v', 'w', 'x', 'y', 'z'];
+const fullAlphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 
 // let alphabet = [...Array(26)].map((_, i) => String.fromCharCode(i + 97));
 
@@ -61,17 +82,51 @@ const hangmanComponents = [
     '<rect id="hangman__right-foot" x="115" y="88.6905" width="4" height="29" transform="rotate(-25 115 88.6905)" fill="#CA994A"/>'
   ];
 
+// /**
+//  * Get a random word from an array of word objects
+//  * @param {number} max - length of word list parameter
+//  * @param {number} min - default: 0
+//  * @returns {string}
+//  */
+// function getRandomWord(max = wordList.length, min = 0) {
+//   const index = Math.floor(Math.random() * (max - min)) + min;
+//   const { word } = wordList[index];
+//   console.log(word);
+//   return word;
+// };
+
+
 /**
- * Get a random word from an array of word objects
- * @param {number} max - length of word list parameter
- * @param {number} min - default: 0
- * @returns {string}
+ * Gets a random word to guess from objects inside an array, which has an array of category names attached at the end.
+ * @param {Object} fullObject - Object in the form of { categoryObjects: [...], groups: [...]}. categoryObjects is an array of arrays of objects.
+ * @returns {string} - Random word to guess.
  */
-function getRandomWord(max = wordList.length, min = 0) {
-  const index = Math.floor(Math.random() * (max - min)) + min;
-  const { word } = wordList[index];
-  console.log(word);
-  return word;
+function getRandomWord(fullObject) {
+  const {categoryObjects, groups} = fullObject;
+  const doubleObjectIndex = randomInterval(categoryObjects);
+  const categoryObject = categoryObjects[doubleObjectIndex];
+  const categoryObjectIndex = randomInterval(categoryObject);
+  const lastObject = categoryObject[categoryObjectIndex];
+  
+  const category = groups[doubleObjectIndex];
+  let name;
+  if (category === "animals") {
+    name = lastObject.name;
+  } else if (category === "countries") {
+    name = lastObject.country;
+  };
+  console.log(name);
+  return name;
+};
+
+/**
+ * Given an array parameter, an index integer between 0 and the length of the array is returned.
+ * @param {Array} array - array
+ * @returns {number} - random integer
+ */
+function randomInterval(array) {
+  const number = Math.floor(Math.random() * array.length);
+  return number;
 };
 
 /**
@@ -94,10 +149,10 @@ export function addGlobalEventListener(type, selector, callback, parent = docume
   });
 };
 
-// Closes popup when clicking outside of the window.
-addGlobalEventListener("click", '.popup__overlay', e => {
-  e.target.style.display = 'none';
-});
+// Closes popup when clicking outside of the reset window.
+// addGlobalEventListener("click", '.popup__overlay', e => {
+//   e.target.style.display = 'none';
+// });
 
 
 
@@ -108,11 +163,14 @@ let wrongGuessCounter;
 const wordDisplay = document.querySelector('.js-word-display');
 
 
-function playGame() {
-  function initializeData(desiredLives = 3) {
-    word = getRandomWord();
+/**
+ * Main function of the project. Is executed asynchronously after the JSON files have been loaded by selecting the desired categories in the dropdown menu.
+ */
+export function playGame() {
+  function initializeData(desiredLives = 6) {
+    word = getRandomWord(groups);
     displayArray = Array.from(word).map(char => 
-      alphabet.includes(char) ? '_' : char
+      fullAlphabet.includes(char) ? '_' : char
     );
     hangmanHTML = '<rect id="hangman__base" y="150" width="160" height="10" fill="#167611"/>';
     wrongGuessCounter = 10 - desiredLives;
@@ -128,16 +186,22 @@ function playGame() {
   initializeData();
 
 
+  /**
+   * Handles the logic, after a button has been interacted with.
+   * @param {Object} button - button HTMLElement
+   * @param {string} letter - pressed letter
+   */
   function pressKey(button, letter) {
+    console.log(typeof button);
     button.disabled = true;
   
-    if (!word.includes(letter)) {
+    if (!word.toLowerCase().includes(letter)) {
       hangmanHTML += hangmanComponents[wrongGuessCounter];
       wrongGuessCounter++;
     } else {
       for (let i = 0; i < word.length; i++) {
-        if (word[i] === letter) {
-          displayArray[i] = letter;
+        if (word[i].toLowerCase() === letter) {
+          displayArray[i] = word[i];
         };
       };
     };
@@ -164,6 +228,9 @@ function playGame() {
   }, document.querySelector('.keyboard'));
   
 
+  /**
+   * Creates the keyboard buttons, which will later be interactive.
+   */
   function createButtons() {
     const buttonsAll = document.querySelector('.keyboard');
     buttonsAll.innerHTML = '';
@@ -179,6 +246,9 @@ function playGame() {
   createButtons();
   
   
+  /**
+   * Renders the random word to guess, with each letter initially replaced with a blank character.
+   */
   function renderWord() {
     wordDisplay.textContent = displayArray.join(' ');
     document.getElementById('Frame 1').innerHTML = hangmanHTML;
@@ -196,6 +266,9 @@ function playGame() {
   };
   
 
+  /**
+   * The game is reset when clicking the reset button, which shows up inside a popup dialog after finishing a round.
+   */
   function resetGame() {
     const popup = document.getElementById('popup-result');
     popup.close();
@@ -208,7 +281,7 @@ function playGame() {
   
   const resetButton = document.querySelector('.js-reset-button')
   resetButton.addEventListener("click", () => {
-    resetButton.blur();
+    // resetButton.blur();
     resetGame();
   });
 
@@ -246,4 +319,4 @@ function playGame() {
   };
 };
 
-playGame();
+// playGame();

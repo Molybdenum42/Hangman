@@ -1,5 +1,8 @@
-import { addGlobalEventListener, loadStatisticsFromStorage, statistics } from "./main.js";
+import { addGlobalEventListener, loadStatisticsFromStorage, newStatistics, statistics } from "./main.js";
 
+/**
+ * Renders the navigation bar. Includes the skeletal HTML, sidebar toggle and theme switch logic.
+ */
 export function renderNavbar() {
   let navbarHTML = `
     <button class="navbar__button-default js-navbar__sidebar-toggler">
@@ -54,6 +57,10 @@ export function renderNavbar() {
 
 
 
+
+/**
+ * Creates all the popups, including from the navigation bar buttons and the end screen after finishing a game.
+ */
 export function createPopups() {
   let popupsHTML = `
   <dialog class="popup__overlay" id="popup-result">
@@ -84,6 +91,9 @@ export function createPopups() {
     <div class="wrapper js-wrapper-settings">
       <h2>Settings</h2>
       <!-- <button type="button" class="popup-settings__close-button">Close</button> -->
+      <div>
+        <button type="button" class="popup-settings__reset-statistics">Reset Statistics</button>
+      </div>
     </div>
   </dialog>
   `;
@@ -135,8 +145,20 @@ export function createPopups() {
   //   settingsPopup.close();
   // });
   easyClosePopup(settingsPopup, settingsWrapper);
+
+  // reset statistics upon clicking
+  addGlobalEventListener("click", ".popup-settings__reset-statistics", () => {
+    localStorage.setItem("hangmanStatistics", JSON.stringify(newStatistics));
+  });
 };
 
+
+
+
+
+/**
+ * Responsible for the rendered statistics, which can be displayed by clicking the button in the navigation bar.
+ */
 export function renderStatistics() {
   const statisticsWrapper = document.querySelector('.js-wrapper-statistics');
   statisticsWrapper.innerHTML = `
@@ -149,6 +171,8 @@ export function renderStatistics() {
     Guess distribution
   </div> -->
   `;
+
+
 
   loadStatisticsFromStorage();
 
