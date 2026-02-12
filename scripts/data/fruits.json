@@ -52,7 +52,7 @@
       {"name": "Bitter Melon", "category": "Vegetable"},
       {"name": "Kiwifruit", "category": "Berry"},
       {"name": "Jabuticaba", "category": "Berry"},
-      {"name": "Salak (Snake Fruit)", "category": "Tropical"},
+      {"name": "Salak", "category": "Tropical"},
       {"name": "Feijoa", "category": "Tropical"},
       {"name": "Cherimoya", "category": "Tropical"},
       {"name": "Noni", "category": "Tropical"},
@@ -71,7 +71,7 @@
       {"name": "Mamey Sapote", "category": "Tropical"},
       {"name": "Lucuma", "category": "Tropical"},
       {"name": "Black Sapote", "category": "Drupe"},
-      {"name": "Pitaya (Dragon Fruit)", "category": "Tropical"},
+      {"name": "Pitaya", "category": "Tropical"},
       {"name": "Saskatoon Berry", "category": "Berry"}
     ]
 }

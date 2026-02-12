@@ -19,26 +19,37 @@
   <main>
     <h1 class="hangman-header">Hangman</h1>
 
-    <div class="option-selection"></div>
+    <div class="option-selection">
+      <form name="category-selector" class="select-group-container">
+        <div name="category" class="category-selector">
+          <span class="category-selector__text">category</span>
+          <span class="select-button__arrow-down">
+              <i class="fa-solid fa-chevron-down"></i>
+          </span>
+        </div>
+    
+        <ul class="category-selector__dropdown"></ul>
+    
+      </form>
+    </div>
 
     <div class="hangman-container">
       <div class="hangman-box">
         <div class="hangman-graphic">
           <svg width="100%" height="100%" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="160" height="160" fill="none"/> <!--1E1E1E-->
-            <g id="Frame 1" clip-path="url(#clip0_0_1)">
-              <!-- <rect width="160" height="160" fill="white"/>
+            <g id="Frame 1" class="hangman-svg__container" clip-path="url(#clip0_0_1)">
+              <rect id="hangman__base" y="150" width="160" height="10" fill="#167611"/>
+              <rect id="hangman__pole" x="15" width="8" height="150" fill="#7B5E3D"/>
               <rect id="hangman__crossbeam" x="145" width="8" height="122" transform="rotate(90 145 0)" fill="#7B5E3D"/>
               <rect id="hangman__crosspiece" x="57.4264" y="2" width="8" height="60" transform="rotate(45 57.4264 2)" fill="#7B5E3D"/>
-              <rect id="hangman__pole" x="15" width="8" height="150" fill="#7B5E3D"/>
-              <rect id="hangman__base" y="150" width="160" height="10" fill="#167611"/>
               <rect id="hangman__rope" x="115" y="8" width="3" height="18" fill="#B36832"/>
               <circle id="hangman__head" cx="116.5" cy="38.5" r="12.5" fill="#CA994A"/>
               <rect id="hangman__torso" x="114" y="51" width="5" height="41" fill="#CA994A"/>
               <rect id="hangman__left-arm" width="4" height="29" transform="matrix(-0.906308 -0.422618 -0.422618 0.906308 117.881 52.6905)" fill="#CA994A"/>
               <rect id="hangman__right-arm" x="115" y="52.6905" width="4" height="29" transform="rotate(-25 115 52.6905)" fill="#CA994A"/>
               <rect id="hangman__left-foot" width="4" height="29" transform="matrix(-0.906308 -0.422618 -0.422618 0.906308 117.881 88.6905)" fill="#CA994A"/>
-              <rect id="hangman__right-foot" x="115" y="88.6905" width="4" height="29" transform="rotate(-25 115 88.6905)" fill="#CA994A"/> -->
+              <rect id="hangman__right-foot" x="115" y="88.6905" width="4" height="29" transform="rotate(-25 115 88.6905)" fill="#CA994A"/>
             </g>
           
             <defs>

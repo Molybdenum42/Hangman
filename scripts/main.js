@@ -11,18 +11,9 @@ async function startGame() {
   }
 };
 startGame();
-// renderOptionSelection().then(promise => {
-//   groups = promise;
-//   setTimeout(playGame, 1000);
-//   // playGame();
-// })
-// .catch(error => {
-//   console.error(error);
-// });
 
 renderNavbar();
 createPopups();
-// renderStatistics();
 
 export let statistics;
 export let newStatistics = {
@@ -67,32 +58,6 @@ const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
 const fullAlphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 
 // let alphabet = [...Array(26)].map((_, i) => String.fromCharCode(i + 97));
-
-const hangmanComponents = [
-    '<rect id="hangman__pole" x="15" width="8" height="150" fill="#7B5E3D"/>',
-    '<rect id="hangman__crossbeam" x="145" width="8" height="122" transform="rotate(90 145 0)" fill="#7B5E3D"/>',
-    '<rect id="hangman__crosspiece" x="57.4264" y="2" width="8" height="60" transform="rotate(45 57.4264 2)" fill="#7B5E3D"/>',
-    '<rect id="hangman__rope" x="115" y="8" width="3" height="18" fill="#B36832"/>',
-    '<circle id="hangman__head" cx="116.5" cy="38.5" r="12.5" fill="#CA994A"/>',
-    '<rect id="hangman__torso" x="114" y="51" width="5" height="41" fill="#CA994A"/>',
-    '<rect id="hangman__left-arm" width="4" height="29" transform="matrix(-0.906308 -0.422618 -0.422618 0.906308 117.881 52.6905)" fill="#CA994A"/>',
-    '<rect id="hangman__right-arm" x="115" y="52.6905" width="4" height="29" transform="rotate(-25 115 52.6905)" fill="#CA994A"/>',
-    '<rect id="hangman__left-foot" width="4" height="29" transform="matrix(-0.906308 -0.422618 -0.422618 0.906308 117.881 88.6905)" fill="#CA994A"/>',
-    '<rect id="hangman__right-foot" x="115" y="88.6905" width="4" height="29" transform="rotate(-25 115 88.6905)" fill="#CA994A"/>'
-  ];
-
-// /**
-//  * Get a random word from an array of word objects
-//  * @param {number} max - length of word list parameter
-//  * @param {number} min - default: 0
-//  * @returns {string}
-//  */
-// function getRandomWord(max = wordList.length, min = 0) {
-//   const index = Math.floor(Math.random() * (max - min)) + min;
-//   const { word } = wordList[index];
-//   console.log(word);
-//   return word;
-// };
 
 
 /**
@@ -150,7 +115,7 @@ export function addGlobalEventListener(type, selector, callback, parent = docume
   });
 };
 
-// Closes popup when clicking outside of the reset window.
+// Closes popup when clicking outside of the reset window. Replaced.
 // addGlobalEventListener("click", '.popup__overlay', e => {
 //   e.target.style.display = 'none';
 // });
@@ -159,9 +124,11 @@ export function addGlobalEventListener(type, selector, callback, parent = docume
 
 let word;
 let displayArray;
-let hangmanHTML;
 let wrongGuessCounter;
 const wordDisplay = document.querySelector('.js-word-display');
+const hangmanSVGContainer = document.querySelector('.hangman-svg__container');
+const hangmanSVGContainerChildren = hangmanSVGContainer.children;
+const maxLives = hangmanSVGContainer.childElementCount;
 
 
 /**
@@ -173,14 +140,11 @@ export function playGame() {
     displayArray = Array.from(word).map(char => 
       fullAlphabet.includes(char) ? '_' : char
     );
-    hangmanHTML = '<rect id="hangman__base" y="150" width="160" height="10" fill="#167611"/>';
-    wrongGuessCounter = 10 - desiredLives;
+    wrongGuessCounter = maxLives - desiredLives;
 
     for (let i = 0; i < wrongGuessCounter; i++) {
-      hangmanHTML += hangmanComponents[i];
+      hangmanSVGContainerChildren[i].classList.add("activated");
     };
-    
-    wordDisplay.innerHTML = hangmanHTML;
     renderWord();
   };
   
@@ -193,11 +157,10 @@ export function playGame() {
    * @param {string} letter - pressed letter
    */
   function pressKey(button, letter) {
-    console.log(typeof button);
     button.disabled = true;
   
     if (!word.toLowerCase().includes(letter)) {
-      hangmanHTML += hangmanComponents[wrongGuessCounter];
+      hangmanSVGContainerChildren[wrongGuessCounter].classList.add("activated");
       wrongGuessCounter++;
     } else {
       for (let i = 0; i < word.length; i++) {
@@ -234,7 +197,6 @@ export function playGame() {
    */
   function createButtons() {
     const buttonsAll = document.querySelector('.keyboard');
-    buttonsAll.innerHTML = '';
     for (const letter of alphabet) {
       const button = document.createElement('button');
       button.textContent = letter;
@@ -252,7 +214,6 @@ export function playGame() {
    */
   function renderWord() {
     wordDisplay.textContent = displayArray.join(' ');
-    document.getElementById('Frame 1').innerHTML = hangmanHTML;
     if (!displayArray.includes('_')) {
       statistics.gamesWon.number++;
       statistics.currentStreak.number++;
@@ -260,7 +221,7 @@ export function playGame() {
         statistics.maxStreak.number++;
       };
       displayResultPopup('won');
-    } else if (wrongGuessCounter >= hangmanComponents.length) {
+    } else if (wrongGuessCounter >= maxLives) {
       statistics.currentStreak.number = 0;
       displayResultPopup('lost');
     };
@@ -276,6 +237,10 @@ export function playGame() {
     isResultPopup = false;
     document.querySelectorAll('.js-keyboard__key')
       .forEach(button => button.disabled = false);
+    
+    for (let i = 0; i < maxLives; i++) {
+      hangmanSVGContainerChildren[i].classList.remove("activated");
+    }
     
     initializeData(); // resets game;
   };
@@ -319,5 +284,3 @@ export function playGame() {
     popup.blur();
   };
 };
-
-// playGame();

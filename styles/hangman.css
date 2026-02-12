@@ -170,6 +170,14 @@ main {
   /* margin: 6px; */
 }
 
+.hangman-svg__container > * {
+  display: none;
+}
+.hangman-svg__container > .activated {
+  display: block;
+}
+
+
 .game-box {
   flex: 0 0 60%;
   display: flex;

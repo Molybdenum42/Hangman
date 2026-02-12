@@ -10,42 +10,48 @@ export async function renderOptionSelection() {
     localStorage.getItem('selectedCategories')) 
     || allCategories;
 
-  const selector = document.querySelector('.option-selection');
-  selector.innerHTML = `
-  <form name="category-selector" class="select-group-container">
-    <div name="category" class="category-selector">
-      <span class="category-selector__text">category</span>
-      <span class="select-button__arrow-down">
-          <i class="fa-solid fa-chevron-down"></i>
-      </span>
-    </div>
-
-    <ul class="category-selector__dropdown"></ul>
-
-  </form>
-  `;
-  
   const listItems = document.querySelector('.category-selector__dropdown');
-  let listItemsHTML = '';
+  const categoryList = [];
+  const isCheckedList = [];
   allCategories.selectedCategories.forEach(category => {
+    categoryList.push(category);
     let isChecked = selectedCategories.includes(category) ? 'checked' : '';
-    
-    listItemsHTML += `
-    <li class="item ${isChecked}">
-        <span class="checkbox">
-            <i class="fa-solid fa-check check-icon"></i>
-        </span>
-        <span class="item-text" data-category="${category}">
-          ${category}
-        </span>
-    </li>
-    `;
+    isCheckedList.push(isChecked);
   });
 
-  listItems.innerHTML = listItemsHTML;
-  listItems.insertAdjacentHTML("beforeend", `
-  <button type="button" class="category-submit-button">Refresh</button>
-  `);
+
+  isCheckedList.forEach(checked => {
+    const item = document.createElement('li');
+    item.classList.add('item');
+    if (checked) {item.classList.add(checked)};
+    listItems.appendChild(item);
+  })
+  
+  document.querySelectorAll('.item').forEach(child => {
+    const checkbox = document.createElement('span');
+    checkbox.classList.add('checkbox');
+    child.appendChild(checkbox);
+  });
+
+  document.querySelectorAll('.checkbox').forEach(child => {
+    const checkIcon = document.createElement('i');
+    checkIcon.classList.add('fa-solid', 'fa-check', 'check-icon');
+    child.appendChild(checkIcon);
+  });
+  
+  document.querySelectorAll('.item').forEach((child, i) => {
+    const itemText = document.createElement('span');
+    itemText.classList.add('item-text');
+    itemText.dataset.category = `${categoryList[i]}`;
+    itemText.innerText = `${categoryList[i]}`;
+    child.appendChild(itemText);
+  });
+
+  const categoryButton = document.createElement('button');
+  categoryButton.type = "button";
+  categoryButton.classList.add('category-submit-button');
+  categoryButton.innerText = 'Refresh';
+  listItems.appendChild(categoryButton);
 
 
   const selectButton = document.querySelector('.category-selector');
@@ -88,10 +94,6 @@ export async function renderOptionSelection() {
       
       let {category} = item.querySelector('.item-text').dataset;
       groups.push(category);
-      
-      // getCategoryJSON(category).then(promise => {
-      //   groups.push(promise);
-      // });
     });
 
     if (groups.length === 0) {
@@ -151,9 +153,4 @@ export async function renderOptionSelection() {
   };
   
   return processGroupPromises();
-  
-  // runPromises();
-  // return new Promise((resolve, reject) => {
-  //   setTimeout(() => resolve(groups), 500);
-  // });
 };
