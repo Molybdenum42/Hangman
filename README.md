@@ -23,6 +23,8 @@ git clone <url>
 
 The file in question is called "index.html". I will link the playable website after I'm somewhat satisfied with the product.
 
+> Update: The project is now conveniently accessible through the folllowing [link](https://khang-mol.github.io/Hangman/ "Here is the Hangman Game").
+
 ## How to tweak this project for your own uses?
 
 If you have more than 1 month of experience as a programmer, then this is not for you.
